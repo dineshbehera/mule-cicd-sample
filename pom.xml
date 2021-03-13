@@ -37,7 +37,7 @@
 						<muleVersion>4.3.0</muleVersion>
 						<username>${anypoint.username}</username>
 						<password>${anypoint.password}</password>
-						<applicationName>mule-cicd-sample</applicationName>
+						<applicationName>mule-cicd-sample123</applicationName>
 						<environment>Sandbox</environment>
 						<workerType>MICRO</workerType>
 						<objectStoreV2>true</objectStoreV2>
