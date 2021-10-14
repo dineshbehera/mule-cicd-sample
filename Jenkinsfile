@@ -2,11 +2,11 @@ pipeline {
      agent any
          stages {
              stage('Build') {
-                 steps {                   
-                  withMaven(maven: 'mvn') {
+                 steps {              
+
                     echo 'Application is in Building Phase'
                   	sh "mvn clean package"
-                  }
+
                  }
             
 			}
