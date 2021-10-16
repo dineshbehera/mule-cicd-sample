@@ -1,12 +1,12 @@
 pipeline {
 	agent any
 	
-	tools {
-		jdk "11.0.1"
-		maven "3.8.3"
-	}
+
 	
 	stages {
+	
+
+		
 		stage('Build') {
 			steps {
             	echo 'Application is in Building Phase'
@@ -14,12 +14,36 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
+        
         stage('Test') {
         	steps {
             	echo 'Application is in Testing Phase'
                 sh 'mvn test'
             }
         }
+        
+        
+        stage('SonarQube analysis') {
+        	environment {
+        		scannarhome = tool 'sonarqube-scannar'
+        	}
+        
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                    sh "mvn clean package sonar:sonar"
+                }
+            }
+        }
+      stage("Quality Gate"){
+          timeout(time: 1, unit: 'HOURS') {
+              def qg = waitForQualityGate()
+              if (qg.status != 'OK') {
+                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
+              }
+          }
+      }
+        
+        
         stage('Deploy to Cloudhub') { 
         	environment {
             	ANYPOINT_CREDENTIALS = credentials('platform.credentials')
