@@ -22,7 +22,20 @@ pipeline {
             }
         }
         
-        
+        stage('Sonarqube') {
+			environment {
+				scannerHome = tool 'SonarQubeScanner'
+			}
+		
+			steps {
+				withSonarQubeEnv('sonarqube') {
+					bat "${scannerHome}/bin/sonar-scanner"
+				}
+				timeout(time: 10, unit: 'MINUTES') {
+					waitForQualityGate abortPipeline: true
+				}
+			}
+		}
             
         
         stage('Deploy to Cloudhub') { 
