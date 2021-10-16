@@ -23,7 +23,7 @@ pipeline {
         }
         
         
-       ss     
+            
         
         stage('Deploy to Cloudhub') { 
         	environment {
