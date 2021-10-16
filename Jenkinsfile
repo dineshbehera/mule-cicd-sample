@@ -36,12 +36,10 @@ pipeline {
 					waitForQualityGate abortPipeline: true
 				}
 				
-				
+			}
 				
     }
-} 
-			}
-		}
+
             
         
         stage('Deploy to Cloudhub') { 
