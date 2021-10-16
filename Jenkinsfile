@@ -5,44 +5,25 @@ pipeline {
 	
 	stages {
 	
-
+		
 		
 		stage('Build') {
 			steps {
             	echo 'Application is in Building Phase'
-            	sh 'mvn --version'
-                sh 'mvn clean install'
+            	bat 'mvn --version'
+                bat 'mvn clean install'
             }
         }
         
         stage('Test') {
         	steps {
             	echo 'Application is in Testing Phase'
-                sh 'mvn test'
+                bat 'mvn test'
             }
         }
         
         
-        stage('SonarQube analysis') {
-        	environment {
-        		scannarhome = tool 'sonarqube-scannar'
-        	}
-        
-            steps {
-                withSonarQubeEnv('sonarqube') {
-                    sh "mvn clean package sonar:sonar"
-                }
-            }
-        }
-      stage("Quality Gate"){
-          timeout(time: 1, unit: 'HOURS') {
-              def qg = waitForQualityGate()
-              if (qg.status != 'OK') {
-                  error "Pipeline aborted due to quality gate failure: ${qg.status}"
-              }
-          }
-      }
-        
+       ss     
         
         stage('Deploy to Cloudhub') { 
         	environment {
